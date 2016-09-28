@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">AimSupporter</string>
+    <string name="Settings">Настройки</string>
+    <string name="add_new_aim">Добавить цель</string>
+    <string name="your_aims">Ваши цели:</string>
+    <string name="gotted">Выполнено</string>
+    <string name="aim_name">Ваша цель</string>
+    <string name="aim_desc">Некие планы и заметки</string>
+    <string name="aim_time">Установить время</string>
+    <string name="set_aim_date">Выберите сроки:</string>
+    <string name="go">Добавить</string>
+    <string name="aim_edit_title">Редактирование цели</string>
+    <string-array name="time_to_notify">
+        <item>Никогда</item>
+        <item>Раз в день</item>
+    </string-array>
+    <string name = "noty_title">AimSupporter</string>
+    <string name = "noty_desc">Что вы сделали сегодня для достижения своих целей? </string>
+</resources>

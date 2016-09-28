@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical|fill_vertical"
+    android:layout_margin="16dp">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/aimName"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:hint="@string/aim_name" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/aimDesc"
+        android:layout_weight="20"
+        android:hint="@string/aim_desc"
+        android:gravity="top" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/aim_time"
+        android:id="@+id/aim_time"
+        android:layout_gravity="center_horizontal"
+        android:onClick="setAimTime" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gotted"
+            android:id="@+id/aimGotted"
+            android:layout_gravity="center_horizontal" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/go"
+            android:src="@mipmap/ic_playlist_add_check_black_24dp"
+            android:contentDescription="@string/go" />
+
+    </LinearLayout>
+
+</LinearLayout>
