@@ -81,7 +81,6 @@ public class MainActivity extends Activity {
         super.onDestroy();
         aimCursor.close();
         db.close();
-        db.close();
     }
 
     @Override
