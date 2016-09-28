@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
             db = helper.getReadableDatabase();
             Cursor newCursor = db.query("AIMS", new String[]{"_id", "NAME", "DESCRIPTION", "TIME","GOTTED"},
                     null, null,null,null, null);
-            ListView listAims = (ListView)findViewById(R.id.aim_list);
+            ListView listAims = (ListView)findViewById(R.id.aim_list); //список целей
             CursorAdapter adapter = (CursorAdapter)listAims.getAdapter();
             adapter.changeCursor(newCursor);
             aimCursor = newCursor;
