@@ -17,7 +17,7 @@ public class NotificationReciever extends BroadcastReceiver {
         Intent rep_intent  = new Intent(context, MainActivity.class);
         rep_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 100, rep_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, rep_intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification notification = new Notification.Builder(context)
                 .setContentIntent(pendingIntent)
@@ -29,6 +29,7 @@ public class NotificationReciever extends BroadcastReceiver {
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .build();
 
-        nm.notify(100,notification);
+        nm.notify(0,notification);
+
     }
 }

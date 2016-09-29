@@ -1,6 +1,8 @@
 package pw.jawedyx.aimsupporter;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,10 +19,13 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 public class MainActivity extends Activity {
-    SQLiteDatabase db;
-    Cursor aimCursor;
-    SQLiteOpenHelper helper;
+    private SQLiteDatabase db;
+    private Cursor aimCursor;
+    private Calendar calendar;
+    private boolean isTime = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +35,7 @@ public class MainActivity extends Activity {
 
         ListView aimList = (ListView)findViewById(R.id.aim_list);
         try{
-            helper = new DBHelper(this);
+            SQLiteOpenHelper helper = new DBHelper(this);
             db = helper.getReadableDatabase();
             aimCursor = db.query("AIMS", new String[]{"_id", "NAME", "DESCRIPTION", "TIME","GOTTED"},
                     null, null,null,null, null);
@@ -51,6 +56,17 @@ public class MainActivity extends Activity {
             }
         });
 
+        if(isTime){
+            calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 17);
+            calendar.set(Calendar.MINUTE, 30);
+
+            Intent intent = new Intent(this, NotificationReciever.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            isTime = false;
+        }
 
     }
 
@@ -79,6 +95,9 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        //Код запуска отложенного уведомления
+
         aimCursor.close();
         db.close();
     }
