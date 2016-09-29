@@ -9,14 +9,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.CursorAdapter;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -31,30 +27,33 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        RecyclerView aimList = (RecyclerView)findViewById(R.id.aim_list);
 
 
-        ListView aimList = (ListView)findViewById(R.id.aim_list);
+
+//        ListView aimList = (ListView)findViewById(R.id.aim_list);
         try{
             SQLiteOpenHelper helper = new DBHelper(this);
             db = helper.getReadableDatabase();
-            aimCursor = db.query("AIMS", new String[]{"_id", "NAME", "DESCRIPTION", "TIME","GOTTED"},
+            aimCursor = db.query("AIMS", new String[]{"_id", "NAME", "TIME"},
                     null, null,null,null, null);
-            CursorAdapter cursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, aimCursor, new String[]{"NAME", "TIME"},
-                    new int[]{android.R.id.text1}, 0);
-            aimList.setAdapter(cursorAdapter);
+            CardAdapter cardAdapter = new CardAdapter(aimCursor);
+            aimList.setAdapter(cardAdapter);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            aimList.setLayoutManager(layoutManager);
         }catch (SQLiteException e){
             Toast toast = Toast.makeText(this, "Ошибка базы данных", Toast.LENGTH_SHORT);
             toast.show();
         }
-        aimList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView name = (TextView) view.findViewById(android.R.id.text1);
-                Intent intent = new Intent(view.getContext(), NewAimActivity.class);
-                intent.putExtra(NewAimActivity.EXTRA_NAME, name.getText());
-                startActivity(intent);
-            }
-        });
+//        aimList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                TextView name = (TextView) view.findViewById(android.R.id.text1);
+//                Intent intent = new Intent(view.getContext(), NewAimActivity.class);
+//                intent.putExtra(NewAimActivity.EXTRA_NAME, name.getText());
+//                startActivity(intent);
+//            }
+//        });
 
         if(isTime){
             calendar = Calendar.getInstance();
@@ -62,6 +61,7 @@ public class MainActivity extends Activity {
             calendar.set(Calendar.MINUTE, 30);
 
             Intent intent = new Intent(this, NotificationReciever.class);
+
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
             am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
@@ -96,8 +96,6 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
 
-        //Код запуска отложенного уведомления
-
         aimCursor.close();
         db.close();
     }
@@ -105,17 +103,18 @@ public class MainActivity extends Activity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        try{
-            DBHelper helper = new DBHelper(this);
-            db = helper.getReadableDatabase();
-            Cursor newCursor = db.query("AIMS", new String[]{"_id", "NAME", "DESCRIPTION", "TIME","GOTTED"},
-                    null, null,null,null, null);
-            ListView listAims = (ListView)findViewById(R.id.aim_list); //список целей
-            CursorAdapter adapter = (CursorAdapter)listAims.getAdapter();
-            adapter.changeCursor(newCursor);
-            aimCursor = newCursor;
-        }catch (SQLiteException ex){
-            Toast.makeText(this, "Ошибка базы данных", Toast.LENGTH_SHORT).show();
-        }
+//        try{
+//            DBHelper helper = new DBHelper(this);
+//            db = helper.getReadableDatabase();
+//            Cursor newCursor = db.query("AIMS", new String[]{"_id", "NAME", "TIME"},
+//                    null, null,null,null, null);
+//            RecyclerView listAims = (RecyclerView) findViewById(R.id.aim_list); //список целей
+//            CardAdapter adapter = (CardAdapter) listAims.getAdapter();
+//            listAims.setAdapter(adapter);
+//            aimCursor.close();
+//            aimCursor = newCursor;
+//        }catch (SQLiteException ex){
+//            Toast.makeText(this, "Ошибка базы данных", Toast.LENGTH_SHORT).show();
+//        }
     }
 }
