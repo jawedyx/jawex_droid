@@ -54,4 +54,8 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put("GOTTED", gotted);
         db.update("AIMS", cv, "NAME = ?", new String[]{name});
     }
+
+    public static void deleteAim(SQLiteDatabase db, String id){
+        db.delete("AIMS", "_id = ?", new String[]{id});
+    }
 }

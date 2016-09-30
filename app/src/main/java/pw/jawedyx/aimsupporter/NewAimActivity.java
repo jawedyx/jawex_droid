@@ -27,7 +27,7 @@ public class NewAimActivity extends Activity {
     private CheckBox gotted;
     private DBHelper helper;
     private static final String DIALOG_DATE = "date";
-    public static final String EXTRA_NAME = "name";
+    public static final String EXTRA_ID = "id";
 
 
 
@@ -42,25 +42,26 @@ public class NewAimActivity extends Activity {
         desc = (EditText)findViewById(R.id.aimDesc);
         gotted = (CheckBox)findViewById(R.id.aimGotted);
 
-        if(getIntent().getStringExtra(EXTRA_NAME) != null){ //Редактирование
+        if(getIntent().getStringExtra(EXTRA_ID) != null){ //Редактирование
             if(getActionBar() != null){
                 getActionBar().setTitle(R.string.aim_edit_title); //Заголовок
             }
-            mName = getIntent().getStringExtra(EXTRA_NAME);
-            name.setText(mName); //Имя цели
+
             try{
                 helper = new DBHelper(this); //Заполнение остальных данных
                 SQLiteDatabase db = helper.getReadableDatabase();
                 Cursor cursor = db.query("AIMS", new String[]{"_id", "NAME", "DESCRIPTION", "TIME", "GOTTED"},
-                        "NAME = ?",
-                        new String[]{mName}, null, null, null);
+                        "_id = ?",
+                        new String[]{getIntent().getStringExtra(EXTRA_ID)}, null, null, null);
                 if(cursor.moveToFirst()) {
+                     mName = cursor.getString(1);
                      mDesc = cursor.getString(2);
                      mTimeText = cursor.getString(3);
                      isGotted = (cursor.getInt(4) == 1);
                 }
                 cursor.close();
                 db.close();
+                name.setText(mName);
                 desc.setText(mDesc);
                 mTime.setText(mTimeText);
                 gotted.setChecked(isGotted);

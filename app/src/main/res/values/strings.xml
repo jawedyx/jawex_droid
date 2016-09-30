@@ -16,4 +16,9 @@
     </string-array>
     <string name = "noty_title">AimSupporter</string>
     <string name = "noty_desc">Что вы сделали сегодня для достижения своих целей? </string>
+    <string name="delete_message">Вы уверены, что хотите удалить данную цель?</string>
+    <string name="delete_title">Удаление</string>
+    <string name="delete_yes">Да</string>
+    <string name="delete_cancel">Отмена</string>
+    <string name="delete_aim_hint">Цель успешно удалена</string>
 </resources>
