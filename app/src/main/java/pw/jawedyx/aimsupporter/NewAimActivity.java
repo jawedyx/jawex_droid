@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +26,7 @@ public class NewAimActivity extends Activity {
     private EditText name;
     private EditText desc;
     private CheckBox gotted;
-    private DBHelper helper;
+    private SQLiteOpenHelper helper;
     private static final String DIALOG_DATE = "date";
     public static final String EXTRA_ID = "id";
 
@@ -45,6 +46,7 @@ public class NewAimActivity extends Activity {
         if(getIntent().getStringExtra(EXTRA_ID) != null){ //Редактирование
             if(getActionBar() != null){
                 getActionBar().setTitle(R.string.aim_edit_title); //Заголовок
+                getActionBar().setDisplayHomeAsUpEnabled(true);
             }
 
             try{
@@ -82,14 +84,22 @@ public class NewAimActivity extends Activity {
                 Toast.makeText(this, "Ошибка обработки данных", Toast.LENGTH_SHORT).show();
             }
         }else {
-            //При создании цели
-            go.setOnClickListener(new View.OnClickListener() {
+            if(getActionBar() != null){
+                getActionBar().setTitle(R.string.aim_create); //Заголовок
+                getActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+
+            go.setOnClickListener(new View.OnClickListener() { //При создании цели
                 @Override
                 public void onClick(View v) {
 
                     try{
                         helper = new DBHelper(v.getContext());
                         SQLiteDatabase db = helper.getWritableDatabase();
+                        if(name.getText().toString().equals("") || desc.getText().toString().equals("") || mTime.getText().toString().equals(getString(R.string.aim_time))){
+                            Toast.makeText(v.getContext(), "Необходимо ввести все данные", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         DBHelper.insertAim(db,name.getText().toString(), desc.getText().toString(), mTime.getText().toString(), gotted.isChecked() );
                         db.close();
                         Intent intent = new Intent(v.getContext(), MainActivity.class);

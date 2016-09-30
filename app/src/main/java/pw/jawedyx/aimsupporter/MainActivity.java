@@ -24,7 +24,8 @@ import java.util.Calendar;
 public class MainActivity extends Activity {
     private SQLiteDatabase db;
     private Cursor aimCursor;
-    private Calendar calendar;
+    public final static String ALARM_KEY = "alarmTag";
+
 
     private boolean isTime = true;
 
@@ -32,6 +33,11 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(savedInstanceState != null){
+            isTime = savedInstanceState.getBoolean(ALARM_KEY);
+        }
+
         RecyclerView aimList = (RecyclerView)findViewById(R.id.aim_list);
 
         try{
@@ -77,7 +83,7 @@ public class MainActivity extends Activity {
 
 
         if(isTime){ //some errors there
-            calendar = Calendar.getInstance();
+            Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 17);
             calendar.set(Calendar.MINUTE, 30);
 
@@ -125,7 +131,7 @@ public class MainActivity extends Activity {
     protected void onRestart() {
         super.onRestart();
 //        try{
-//            DBHelper helper = new DBHelper(this);
+//            SQLiteOpenHelper helper = new DBHelper(this);
 //            db = helper.getReadableDatabase();
 //            Cursor newCursor = db.query("AIMS", new String[]{"_id", "NAME", "TIME"},
 //                    null, null,null,null, null);
@@ -163,4 +169,9 @@ public class MainActivity extends Activity {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(ALARM_KEY, isTime);
+    }
 }
