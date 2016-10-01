@@ -58,7 +58,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
-                android:layout_gravity="left|center_vertical" />
+                android:layout_gravity="start|center_vertical" />
 
             <TextView
                 android:id="@+id/card_text_date"
@@ -74,7 +74,8 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:id="@+id/cursorId"
                 android:visibility="invisible"
-                android:layout_weight="0" />
+                android:text=""
+                android:foreground="#493d0f0f" />
 
         </LinearLayout>
 

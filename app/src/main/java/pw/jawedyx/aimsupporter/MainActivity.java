@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,11 +33,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        if(savedInstanceState != null){
-            isTime = savedInstanceState.getBoolean(ALARM_KEY);
-        }
-
         RecyclerView aimList = (RecyclerView)findViewById(R.id.aim_list);
 
         try{
@@ -47,7 +42,7 @@ public class MainActivity extends Activity {
                     null, null,null,null, null);
             final CardAdapter cardAdapter = new CardAdapter(aimCursor);
             aimList.setAdapter(cardAdapter);
-            final LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            final GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
             aimList.setLayoutManager(layoutManager);
             cardAdapter.setListener(new CardAdapter.Listener() {
                 @Override
@@ -61,7 +56,7 @@ public class MainActivity extends Activity {
                 }
 
                 @Override
-                public void onLongClick(int position) {
+                public void onLongClick(int position) { // Удаление
                     View v = layoutManager.findViewByPosition(position);
                     TextView id = (TextView)v.findViewById(R.id.cursorId);
                     AlertDialog ad = new AlertDialog.Builder(v.getContext())
@@ -169,9 +164,4 @@ public class MainActivity extends Activity {
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(ALARM_KEY, isTime);
-    }
 }
