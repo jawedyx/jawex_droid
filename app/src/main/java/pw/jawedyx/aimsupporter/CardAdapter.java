@@ -62,10 +62,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder>{
         TextView textAimName = (TextView) cardView.findViewById(R.id.card_text_name);
         TextView textAimDate = (TextView)cardView.findViewById(R.id.card_text_date);
         TextView id = (TextView)cardView.findViewById(R.id.cursorId);
+
+        if(cursor != null ){
             id.setText(String.valueOf(cursor.getInt(0)));
             textAimName.setText(cursor.getString(1));
             textAimDate.setText(cursor.getString(2));
             cursor.moveToNext();
+        }
 
 
     }
@@ -77,5 +80,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder>{
 
     public void setListener(Listener listener){
         this.listener = listener;
+    }
+
+    public void updateList(Cursor cursor) {
+        cursor.moveToFirst();
+        this.cursor = cursor;
+
+        notifyDataSetChanged();
     }
 }

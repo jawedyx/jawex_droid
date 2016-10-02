@@ -1,9 +1,7 @@
 package pw.jawedyx.aimsupporter;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -19,11 +17,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
-
 public class MainActivity extends Activity {
     private SQLiteDatabase db;
     private Cursor aimCursor;
+    private  RecyclerView aimList;
     public final static String ALARM_KEY = "alarmTag";
 
 
@@ -33,7 +30,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RecyclerView aimList = (RecyclerView)findViewById(R.id.aim_list);
+        aimList = (RecyclerView)findViewById(R.id.aim_list);
 
         try{
             SQLiteOpenHelper helper = new DBHelper(this);
@@ -50,6 +47,7 @@ public class MainActivity extends Activity {
                     View v = layoutManager.findViewByPosition(position);
                     TextView id = (TextView)v.findViewById(R.id.cursorId);
                     Intent intent = new Intent(v.getContext(), NewAimActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     intent.putExtra(NewAimActivity.EXTRA_ID, id.getText());
                     startActivity(intent);
 
@@ -77,18 +75,18 @@ public class MainActivity extends Activity {
         }
 
 
-        if(isTime){ //some errors there
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 17);
-            calendar.set(Calendar.MINUTE, 30);
-
-            Intent intent = new Intent(this, NotificationReciever.class);
-
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
-            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-            isTime = false;
-        }
+//        if(isTime){ //some errors there
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.set(Calendar.HOUR_OF_DAY, 17);
+//            calendar.set(Calendar.MINUTE, 30);
+//
+//            Intent intent = new Intent(this, NotificationReciever.class);
+//
+//            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//            AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+//            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+//            isTime = false;
+//        }
 
     }
 
@@ -125,19 +123,20 @@ public class MainActivity extends Activity {
     @Override
     protected void onRestart() {
         super.onRestart();
-//        try{
-//            SQLiteOpenHelper helper = new DBHelper(this);
-//            db = helper.getReadableDatabase();
-//            Cursor newCursor = db.query("AIMS", new String[]{"_id", "NAME", "TIME"},
-//                    null, null,null,null, null);
-//            RecyclerView listAims = (RecyclerView) findViewById(R.id.aim_list); //список целей
-//            CardAdapter adapter = (CardAdapter) listAims.getAdapter();
-//            listAims.setAdapter(adapter);
-//            aimCursor.close();
-//            aimCursor = newCursor;
-//        }catch (SQLiteException ex){
-//            Toast.makeText(this, "Ошибка базы данных", Toast.LENGTH_SHORT).show();
-//        }
+
+
+        try{
+            SQLiteOpenHelper helper = new DBHelper(this);
+            db = helper.getReadableDatabase();
+            Cursor newCursor = db.query("AIMS", new String[]{"_id", "NAME", "TIME"},
+                    null, null,null,null, null);
+            aimList = (RecyclerView) findViewById(R.id.aim_list); //список целей
+            CardAdapter adapter = (CardAdapter) aimList.getAdapter();
+            adapter.updateList(newCursor);
+            aimCursor = newCursor;
+        }catch (SQLiteException ex){
+            Toast.makeText(this, "Ошибка базы данных", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -156,6 +155,14 @@ public class MainActivity extends Activity {
                     SQLiteDatabase db = helper.getWritableDatabase();
                     DBHelper.deleteAim(db, mPosition);
                     db.close();
+
+
+                    SQLiteDatabase bd = helper.getReadableDatabase();
+                    Cursor newCursor = bd.query("AIMS", new String[]{"_id", "NAME", "TIME"}, null, null,null,null, null);
+                    CardAdapter adapter = (CardAdapter) aimList.getAdapter();
+                    adapter.updateList(newCursor);
+                    bd.close();
+
                     Toast.makeText(getApplicationContext(), R.string.delete_aim_hint, Toast.LENGTH_SHORT).show();
                     break;
                 case DialogInterface.BUTTON_NEUTRAL:

@@ -46,13 +46,13 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert("AIMS", null, cv);
     }
 
-    public static void updateAim(SQLiteDatabase db, String name, String desc, String time, Boolean gotted){
+    public static void updateAim(SQLiteDatabase db, String name, String desc, String time, Boolean gotted, String id){
         ContentValues cv = new ContentValues();
         cv.put("NAME", name);
         cv.put("DESCRIPTION", desc);
         cv.put("TIME", time);
         cv.put("GOTTED", gotted);
-        db.update("AIMS", cv, "NAME = ?", new String[]{name});
+        db.update("AIMS", cv, "_id = ?", new String[]{id});
     }
 
     public static void deleteAim(SQLiteDatabase db, String id){

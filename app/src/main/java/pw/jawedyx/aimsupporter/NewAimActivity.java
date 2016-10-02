@@ -72,10 +72,10 @@ public class NewAimActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         SQLiteDatabase db = helper.getWritableDatabase();
-                        DBHelper.updateAim(db,name.getText().toString(), desc.getText().toString(), mTime.getText().toString(), gotted.isChecked() );
+                        DBHelper.updateAim(db,name.getText().toString(), desc.getText().toString(), mTime.getText().toString(), gotted.isChecked(), getIntent().getStringExtra(EXTRA_ID) );
                         db.close();
                         Intent intent = new Intent(v.getContext(), MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
                 });
@@ -103,7 +103,7 @@ public class NewAimActivity extends Activity {
                         DBHelper.insertAim(db,name.getText().toString(), desc.getText().toString(), mTime.getText().toString(), gotted.isChecked() );
                         db.close();
                         Intent intent = new Intent(v.getContext(), MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
 
                     }catch (SQLiteException ex){
