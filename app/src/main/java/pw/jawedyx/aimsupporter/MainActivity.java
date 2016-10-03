@@ -1,7 +1,9 @@
 package pw.jawedyx.aimsupporter;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,14 +19,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 public class MainActivity extends Activity {
     private SQLiteDatabase db;
     private Cursor aimCursor;
     private  RecyclerView aimList;
-    public final static String ALARM_KEY = "alarmTag";
-
-
-    private boolean isTime = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,19 +74,16 @@ public class MainActivity extends Activity {
             toast.show();
         }
 
+        if(savedInstanceState == null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.HOUR, 5);
 
-//        if(isTime){ //some errors there
-//            Calendar calendar = Calendar.getInstance();
-//            calendar.set(Calendar.HOUR_OF_DAY, 17);
-//            calendar.set(Calendar.MINUTE, 30);
-//
-//            Intent intent = new Intent(this, NotificationReciever.class);
-//
-//            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//            AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
-//            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-//            isTime = false;
-//        }
+            Intent intent = new Intent(this, NotificationReciever.class);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        }
 
     }
 
@@ -115,7 +112,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         aimCursor.close();
         db.close();
     }

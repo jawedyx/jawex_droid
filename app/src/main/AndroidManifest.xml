@@ -27,7 +27,8 @@
             android:name=".NewAimActivity"
             android:label="@string/add_new_aim"
             android:parentActivityName=".MainActivity"/>
-        <receiver android:name=".NotificationReciever"/>
+        <receiver android:name=".NotificationReciever"
+            android:enabled="true"/>
     </application>
 
 </manifest>
