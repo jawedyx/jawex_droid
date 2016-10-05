@@ -43,6 +43,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(CardAdapter.ViewHolder holder, final int position) {
         CardView cardView = holder.cardView;
+
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,4 +89,5 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder>{
 
         notifyDataSetChanged();
     }
+
 }

@@ -77,6 +77,7 @@ public class NewAimActivity extends Activity {
                         Intent intent = new Intent(v.getContext(), MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.close_detail_animation, R.anim.alpha);
                     }
                 });
 
@@ -105,6 +106,7 @@ public class NewAimActivity extends Activity {
                         Intent intent = new Intent(v.getContext(), MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.close_detail_animation, R.anim.alpha);
 
                     }catch (SQLiteException ex){
                         Toast.makeText(v.getContext(), "База данных недоступна", Toast.LENGTH_SHORT).show();
@@ -122,6 +124,9 @@ public class NewAimActivity extends Activity {
         dialog.show(fm,DIALOG_DATE);
     }
 
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.close_detail_animation, R.anim.alpha);
+    }
 }

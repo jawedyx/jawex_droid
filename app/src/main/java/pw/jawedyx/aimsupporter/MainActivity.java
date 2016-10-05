@@ -50,6 +50,7 @@ public class MainActivity extends Activity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     intent.putExtra(NewAimActivity.EXTRA_ID, id.getText());
                     startActivity(intent);
+                    overridePendingTransition(R.anim.open_detail_animation, R.anim.alpha);
 
                 }
 
@@ -103,6 +104,7 @@ public class MainActivity extends Activity {
                 Intent i = new Intent(this, NewAimActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(i);
+                overridePendingTransition(R.anim.open_detail_animation, R.anim.alpha);
             default:
                return super.onOptionsItemSelected(item);
         }
@@ -133,6 +135,7 @@ public class MainActivity extends Activity {
         }catch (SQLiteException ex){
             Toast.makeText(this, "Ошибка базы данных", Toast.LENGTH_SHORT).show();
         }
+
     }
 
 
@@ -167,4 +170,9 @@ public class MainActivity extends Activity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.open_animation, R.anim.alpha);
+    }
 }
