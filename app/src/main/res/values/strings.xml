@@ -11,8 +11,11 @@
     <string name="go">Добавить</string>
     <string name="aim_edit_title">Редактирование цели</string>
     <string-array name="time_to_notify">
+        <item>5 часов</item>
+        <item>4 часа</item>
+        <item>3 часа</item>
+        <item>2 часа</item>
         <item>Никогда</item>
-        <item>Раз в день</item>
     </string-array>
     <string name = "noty_title">AimSupporter</string>
     <string name = "noty_desc">Что вы сделали сегодня для достижения своих целей? </string>
@@ -22,4 +25,6 @@
     <string name="delete_cancel">Отмена</string>
     <string name="delete_aim_hint">Цель успешно удалена</string>
     <string name="aim_create">Создание цели</string>
+    <string name="notify_sets">Частота уведомлений:</string>
+    <string name="bg_sets">Фон главного экрана</string>
 </resources>

@@ -15,7 +15,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="1"
         android:hint="@string/aim_name"
-        android:focusable="false" />
+         />
 
     <EditText
         android:layout_width="match_parent"

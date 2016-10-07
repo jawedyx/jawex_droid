@@ -17,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,13 +28,20 @@ public class MainActivity extends Activity {
     private Cursor aimCursor;
     private  RecyclerView aimList;
     private SharedPreferences sharedPreferences;
-    public static final String APP_SETTINGS = "AimSupporterSettings";
+    private RelativeLayout relativeLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         aimList = (RecyclerView)findViewById(R.id.aim_list);
+        relativeLayout = (RelativeLayout)findViewById(R.id.main_back);
+
+        sharedPreferences = getSharedPreferences(SettingsActivity.APP_SETTINGS, MODE_PRIVATE);
+        if (sharedPreferences.contains(SettingsActivity.APP_SETTINGS_BG)){
+            relativeLayout.setBackgroundResource(sharedPreferences.getInt(SettingsActivity.APP_SETTINGS_BG, 0));
+        }
 
         try{
             SQLiteOpenHelper helper = new DBHelper(this);
@@ -80,13 +88,33 @@ public class MainActivity extends Activity {
 
         if(savedInstanceState == null) {
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.HOUR, 5);
+            if(sharedPreferences.contains(SettingsActivity.APP_SETTINGS_NOTY)){
+                switch (sharedPreferences.getInt(SettingsActivity.APP_SETTINGS_NOTY, 0)){
+                    case 0:
+                        calendar.add(Calendar.HOUR, 5);
+                        setAlarm(calendar);
+                        break;
+                    case 1:
+                        calendar.add(Calendar.HOUR, 4);
+                        setAlarm(calendar);
+                        break;
+                    case 2:
+                        calendar.add(Calendar.HOUR, 3);
+                        setAlarm(calendar);
+                        break;
+                    case 3:
+                        calendar.add(Calendar.HOUR, 2);
+                        setAlarm(calendar);
+                        break;
+                    case 4:
+                        break;
+                }
+            }else{
+                calendar.add(Calendar.HOUR, 5);
+            }
 
-            Intent intent = new Intent(this, NotificationReciever.class);
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
         }
 
     }
@@ -124,7 +152,9 @@ public class MainActivity extends Activity {
     @Override
     protected void onRestart() {
         super.onRestart();
-
+        if (sharedPreferences.contains(SettingsActivity.APP_SETTINGS_BG)){
+            relativeLayout.setBackgroundResource(sharedPreferences.getInt(SettingsActivity.APP_SETTINGS_BG, 0));
+        }
 
         try{
             SQLiteOpenHelper helper = new DBHelper(this);
@@ -141,6 +171,11 @@ public class MainActivity extends Activity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.open_animation, R.anim.alpha);
+    }
 
     private class AimDialog implements DialogInterface.OnClickListener{
         private String mPosition;
@@ -173,9 +208,11 @@ public class MainActivity extends Activity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.open_animation, R.anim.alpha);
+    private void setAlarm(Calendar calendar){
+        Intent intent = new Intent(this, NotificationReciever.class);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 }
