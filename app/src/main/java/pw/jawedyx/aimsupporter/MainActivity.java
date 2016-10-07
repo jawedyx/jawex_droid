@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -25,6 +26,8 @@ public class MainActivity extends Activity {
     private SQLiteDatabase db;
     private Cursor aimCursor;
     private  RecyclerView aimList;
+    private SharedPreferences sharedPreferences;
+    public static final String APP_SETTINGS = "AimSupporterSettings";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

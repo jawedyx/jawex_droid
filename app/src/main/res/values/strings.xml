@@ -5,8 +5,8 @@
     <string name="your_aims">Ваши цели:</string>
     <string name="gotted">Выполнено</string>
     <string name="aim_name">Ваша цель</string>
-    <string name="aim_desc">Некие планы и заметки</string>
-    <string name="aim_time">Установить время</string>
+    <string name="aim_desc">Планы и заметки</string>
+    <string name="aim_time">Установить дату</string>
     <string name="set_aim_date">Выберите сроки:</string>
     <string name="go">Добавить</string>
     <string name="aim_edit_title">Редактирование цели</string>

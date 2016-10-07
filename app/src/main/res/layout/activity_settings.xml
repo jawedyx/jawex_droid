@@ -16,6 +16,18 @@
         android:entries="@array/time_to_notify"
         />
 
+    <GridView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageSelector"
+        android:layout_below="@+id/aim_notifier_spinner"
+        android:layout_centerHorizontal="true"
+        android:choiceMode="singleChoice"
+        android:columnWidth="100dp"
+        android:numColumns="3"
+        android:focusable="true"
+        android:clickable="true" />
+
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,4 +36,5 @@
         android:layout_centerHorizontal="true"
         android:onClick="goOnClick"
         android:src="@mipmap/ic_playlist_add_check_black_24dp" />
+
 </RelativeLayout>

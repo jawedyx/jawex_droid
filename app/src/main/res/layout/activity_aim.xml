@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/aim_back"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical|fill_vertical"
@@ -13,7 +14,8 @@
         android:id="@+id/aimName"
         android:layout_gravity="center_horizontal"
         android:layout_weight="1"
-        android:hint="@string/aim_name" />
+        android:hint="@string/aim_name"
+        android:focusable="false" />
 
     <EditText
         android:layout_width="match_parent"
@@ -33,24 +35,28 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:weightSum="1">
 
         <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
             android:text="@string/gotted"
             android:id="@+id/aimGotted"
-            android:layout_gravity="center_horizontal" />
+            android:elegantTextHeight="false"
+            android:layout_weight="1" />
 
         <ImageButton
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:id="@+id/go"
             android:src="@mipmap/ic_playlist_add_check_black_24dp"
-            android:contentDescription="@string/go" />
+            android:contentDescription="@string/go"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1" />
 
     </LinearLayout>
 

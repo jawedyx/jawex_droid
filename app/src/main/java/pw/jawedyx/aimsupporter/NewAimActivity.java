@@ -97,8 +97,8 @@ public class NewAimActivity extends Activity {
                     try{
                         helper = new DBHelper(v.getContext());
                         SQLiteDatabase db = helper.getWritableDatabase();
-                        if(name.getText().toString().equals("") || desc.getText().toString().equals("") || mTime.getText().toString().equals(getString(R.string.aim_time))){
-                            Toast.makeText(v.getContext(), "Необходимо ввести все данные", Toast.LENGTH_SHORT).show();
+                        if(name.getText().toString().equals("")  || mTime.getText().toString().equals(getString(R.string.aim_time))){
+                            Toast.makeText(v.getContext(), "Пожалуйста, укажите больше информации о цели", Toast.LENGTH_SHORT).show();
                             return;
                         }
                         DBHelper.insertAim(db,name.getText().toString(), desc.getText().toString(), mTime.getText().toString(), gotted.isChecked() );
@@ -113,6 +113,9 @@ public class NewAimActivity extends Activity {
                     }
                 }
             });
+
+            gotted.setVisibility(View.GONE);
+
         }
 
 
