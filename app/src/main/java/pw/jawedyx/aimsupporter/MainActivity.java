@@ -36,6 +36,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         aimList = (RecyclerView)findViewById(R.id.aim_list);
+
         relativeLayout = (RelativeLayout)findViewById(R.id.main_back);
 
         sharedPreferences = getSharedPreferences(SettingsActivity.APP_SETTINGS, MODE_PRIVATE);
@@ -50,6 +51,7 @@ public class MainActivity extends Activity {
                     null, null,null,null, null);
             final CardAdapter cardAdapter = new CardAdapter(aimCursor);
             aimList.setAdapter(cardAdapter);
+
             final GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
             aimList.setLayoutManager(layoutManager);
             cardAdapter.setListener(new CardAdapter.Listener() {

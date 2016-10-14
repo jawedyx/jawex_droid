@@ -13,6 +13,8 @@ public class SettingsActivity extends Activity {
     private Spinner spinner;
     private SharedPreferences sharedPreferences;
     private int bgColor = -1;
+    private int lastClickPosition = -1;
+    private View lastView = null;
     public static final String APP_SETTINGS = "AimSupporterSettings";
     public static final String APP_SETTINGS_BG = "bg_color";
     public static final String APP_SETTINGS_NOTY = "notyfication_timer";
@@ -33,13 +35,8 @@ public class SettingsActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 bgColor = (int)gridView.getAdapter().getItem(position);
-
-            }
+           }
         });
-
-
-
-
     }
 
     public void goOnClick(View view) {
@@ -53,8 +50,6 @@ public class SettingsActivity extends Activity {
         editor.putInt(APP_SETTINGS_NOTY, variant);
         editor.apply();
 
-        Toast.makeText(this,"Требуется перезагрузка приложения, чтобы настройки вступили в силу", Toast.LENGTH_SHORT ).show();
-
-
+        Toast.makeText(this, "Настройки успешно сохранены", Toast.LENGTH_SHORT).show();
     }
 }
