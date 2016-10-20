@@ -12,7 +12,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,8 +51,7 @@ public class MainActivity extends Activity {
             final CardAdapter cardAdapter = new CardAdapter(aimCursor);
             aimList.setAdapter(cardAdapter);
 
-            final GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
-            aimList.setLayoutManager(layoutManager);
+            final RecyclerView.LayoutManager layoutManager = aimList.getLayoutManager();
             cardAdapter.setListener(new CardAdapter.Listener() {
                 @Override
                 public void onClick(int position) {

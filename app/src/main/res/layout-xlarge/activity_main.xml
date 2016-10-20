@@ -19,7 +19,7 @@
         android:text="@string/your_aims"
         android:id="@+id/textView"
         android:textStyle="bold"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/aim_list"
@@ -29,6 +29,7 @@
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
-        app:layoutManager="LinearLayoutManager"/>
+        app:layoutManager="GridLayoutManager"
+        app:spanCount="2"/>
 
 </RelativeLayout>

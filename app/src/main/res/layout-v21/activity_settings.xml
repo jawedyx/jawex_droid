@@ -44,7 +44,6 @@
             android:focusable="true"
             android:clickable="true"
             android:gravity="center"
-            android:listSelector="@drawable/grid_selector"
             android:stretchMode="columnWidth"
             />
     </LinearLayout>
